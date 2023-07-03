@@ -1,0 +1,12 @@
+version: "3.2"
+services:
+  nodejs-sqlite3:
+    image: node-sqlite3
+    volumes:
+      - C:\Users\nazar\Desktop\test_task_ts:/app
+    working_dir: /app
+    container_name: nodejs-sqlite3
+    #stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    ports:
+      - 3000:3000

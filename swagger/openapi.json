@@ -1,0 +1,408 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Тестовое задание",
+      "version": "1.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000/"
+      }
+    ],
+    "paths": {
+      "/addcontacts": {
+        "post": {
+          "description": "Добавлние контактов",
+          "requestBody": {
+            "description": "add contacts",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "source_id": {
+                      "type": "number",
+                      "format": "number",
+                      "example": 2
+                    },
+                    "items": {
+                        "type" : "array",
+                        "items" : {
+                            "type": "object",
+                            "properties": {
+                                "item": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "format": "string"
+                                        },
+                                        "email": {
+                                          "type": "string",
+                                          "format": "string"
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "format": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "example": "[{\"email\": \"email@email.com\", \"name\": \"contactname\", \"phone\": \"79123456789\"},{\"email\": \"email@com\", \"name\": \"contactname\", \"phone\": \"79123\"}]"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Результат добавления контактов",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "addedItemsCount": {
+                        "type": "number",
+                        "format": "number",
+                        "example": 1
+                      },
+                      "invalidItems": {
+                        "type" : "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "item": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "format": "string"
+                                          },
+                                        "email": {
+                                          "type": "string",
+                                          "format": "string"
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "format": "string"
+                                        }
+                                    }
+                                },
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                      }
+                    },
+                    "example": "{\"addedItemsCount\":12,\"invalidItems\":[{\"item\":{\"email\":\"email@email.com\",\"name\":\"contactname\",\"phone\":\"79123456789\"},\"errors\":[\"Данный номер телефона был использован за последние 24часа\"]},{\"item\":{\"email\":\"email@com\",\"name\":\"contactname\",\"phone\":\"79123\"},\"errors\":[\"Невалидный email\",\"Невалидный номер телефона\"]}]}"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Invalid Server Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "Invalid Server Error"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/getallcontacts": {
+        "get": {
+          "description": "Получить все контакты",
+          "responses": {
+            "200": {
+              "description": "Все контакты",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "item": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "number",
+                                        "format": "number"
+                                    },
+                                    "sourceId": {
+                                        "type": "number",
+                                        "format": "number"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "format": "string"
+                                    },
+                                    "email": {
+                                      "type": "string",
+                                      "format": "string"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "format": "string"
+                                    },
+                                    "createdAt": {
+                                        "type": "string",
+                                        "format": "string"
+                                    },
+                                    "updatedAt":{
+                                        "type": "string",
+                                        "format": "string"
+                                    } 
+                                }
+                            }
+                        }
+                    },
+                    "example": "[{\"id\":1,\"sourceId\":1,\"name\":\"name1\",\"phone\":9000000001,\"email\":\"email1@a.com\",\"createdAt\":\"2023-07-02T19:12:51.244Z\",\"updatedAt\":\"2023-07-02T19:12:51.242Z\"},{\"id\":2,\"sourceId\":2,\"name\":\"name2\",\"phone\":9000000002,\"email\":\"email1@a.com\",\"createdAt\":\"2023-07-02T19:13:17.030Z\",\"updatedAt\":\"2023-07-02T19:13:17.030Z\"},{\"id\":3,\"sourceId\":20,\"name\":\"name3\",\"phone\":9000000003,\"email\":\"email1@a.com\",\"createdAt\":\"2023-07-02T19:13:43.829Z\",\"updatedAt\":\"2023-07-02T19:13:43.829Z\"},{\"id\":4,\"sourceId\":2,\"name\":\"contactname\",\"phone\":79123456789,\"email\":\"email@email.com\",\"createdAt\":\"2023-07-02T22:22:04.780Z\",\"updatedAt\":\"2023-07-02T22:22:04.779Z\"}]"
+                    
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Invalid Server Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "Invalid Server Error"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/getcontactsbyphone": {
+        "get": {
+          "description": "Получить все контакты",
+          "parameters": [
+            {
+              "name": "phone",
+              "in": "query",
+              "required": true,
+              "description": "Номер телефона",
+              "schema": {
+                "type": "string",
+                "example": "9000000001"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Контакты по номеру телефона",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "item": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "number",
+                                        "format": "number"
+                                    },
+                                    "sourceId": {
+                                        "type": "number",
+                                        "format": "number"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "format": "string"
+                                    },
+                                    "email": {
+                                      "type": "string",
+                                      "format": "string"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "format": "string"
+                                    },
+                                    "createdAt": {
+                                        "type": "string",
+                                        "format": "string"
+                                    },
+                                    "updatedAt":{
+                                        "type": "string",
+                                        "format": "string"
+                                    } 
+                                }
+                            }
+                        }
+                    },
+                    "example": "[{\"id\":1,\"sourceId\":1,\"name\":\"name1\",\"phone\":9000000001,\"email\":\"email1@a.com\",\"createdAt\":\"2023-07-02T19:12:51.244Z\",\"updatedAt\":\"2023-07-02T19:12:51.242Z\"}]"
+                    
+                  }
+                }
+              }
+            },
+            "400": {
+                "description": "Невалидный номер телефона",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "format": "string",
+                          "example": "Невалидный номер телефона"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+            "500": {
+              "description": "Invalid Server Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "Invalid Server Error"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/deletecontact": {
+        "delete": {
+          "description": "Удалить контакты по номеру телефона",
+          "parameters": [
+            {
+              "name": "phone",
+              "in": "query",
+              "required": true,
+              "description": "Номер телефона",
+              "schema": {
+                "type": "string",
+                "example": "9000000001"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Удалённые контакты",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "item": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "number",
+                                        "format": "number"
+                                    },
+                                    "sourceId": {
+                                        "type": "number",
+                                        "format": "number"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "format": "string"
+                                    },
+                                    "email": {
+                                      "type": "string",
+                                      "format": "string"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "format": "string"
+                                    },
+                                    "createdAt": {
+                                        "type": "string",
+                                        "format": "string"
+                                    },
+                                    "updatedAt":{
+                                        "type": "string",
+                                        "format": "string"
+                                    } 
+                                }
+                            }
+                        }
+                    },
+                    "example": "[{\"id\":1,\"sourceId\":1,\"name\":\"name1\",\"phone\":9000000001,\"email\":\"email1@a.com\",\"createdAt\":\"2023-07-02T19:12:51.244Z\",\"updatedAt\":\"2023-07-02T19:12:51.242Z\"}]"
+                    
+                  }
+                }
+              }
+            },
+            "400": {
+                "description": "Невалидный номер телефона",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "format": "string",
+                          "example": "Невалидный номер телефона"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+            "500": {
+              "description": "Invalid Server Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "Invalid Server Error"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
